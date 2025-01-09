@@ -168,6 +168,37 @@ def load_csv_from_blob(
     return pd.read_csv(io.BytesIO(blob_data), **kwargs)
 
 
+def load_excel_from_blob(
+    blob_name,
+    stage: Literal["prod", "dev"] = "dev",
+    container_name: str = "projects",
+    **kwargs,
+):
+    """
+    Load an Excel file from Azure Blob Storage into a pandas DataFrame.
+
+    Parameters
+    ----------
+    blob_name : str
+        Name of the blob to load
+    stage : Literal["prod", "dev"], optional
+        Environment stage to load from, by default "dev"
+    container_name : str, optional
+        Name of the container to load from, by default "projects"
+    **kwargs : dict
+        Additional arguments passed to pandas.read_excel()
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame containing the loaded data
+    """
+    blob_data = _load_blob_data(
+        blob_name, stage=stage, container_name=container_name
+    )
+    return pd.read_excel(io.BytesIO(blob_data), **kwargs)
+
+
 def upload_gdf_to_blob(gdf, blob_name, stage: Literal["prod", "dev"] = "dev"):
     """
     Upload a GeoDataFrame to Azure Blob Storage as a zipped shapefile.

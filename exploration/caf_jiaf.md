@@ -16,5 +16,30 @@ jupyter:
 # CAF JIAF
 
 ```python
+%load_ext jupyter_black
+%load_ext autoreload
+%autoreload 2
+```
+
+```python
+import pandas as pd
+
+from src.datasources import jiaf
+```
+
+```python
+df = jiaf.load_jiaf_sectoral_severity()
+df
+```
+
+```python
+df = df.dropna()
+```
+
+```python
+df[df["severity"].isin([str(x) for x in range(1, 6)])]
+```
+
+```python
 
 ```
